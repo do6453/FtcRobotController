@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
+import static android.os.SystemClock.sleep;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -26,6 +28,7 @@ public class ImuOpMode extends OpMode {
         inputHandler = InputAutoMapper.normal.autoMap(this);
 
         logFile = new LogFile();
+        logFile.logCreate(telemetry, "practice", "txt");
         telemetry.addData("Path: ", logFile.fullPath);
         telemetry.update();
     }
@@ -43,8 +46,8 @@ public class ImuOpMode extends OpMode {
 
     @Override
     public void stop() {
-        logFile.close();
     }
+
     public void handleInput() {
         inputHandler.loop();
 

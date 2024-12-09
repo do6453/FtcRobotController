@@ -8,23 +8,22 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 public class LogFile {
+    private Telemetry telemetry;
     private FileWriter logWriter;
     public String fullPath = null;
 
-    public LogFile() {
+    public void logCreate(Telemetry telemetry, String prefix, String extension) {
 
-        // Do not use the following as they may be attempting to write to protected spaces
-        // String logFolder = Environment.getDataDirectory().getPath();            // /data
-        // String logFolder = Environment.getDownloadCacheDirectory().getPath();   // /data/cache
-        // String logFolder = Environment.getRootDirectory().getPath();            // /system
-        // String logFolder = Environment.getStorageDirectory().getPath();         // Requires API level 30
+        this.telemetry = telemetry;
 
         String logFolder = Environment.getExternalStorageDirectory().getPath(); // /storage/emulated/0 also maps to /sdcard
 
         // Define a unique file name
         String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date());
-        String fileName = logFolder + "/FIRST/logs/log_" + timestamp + ".txt";
+        String fileName = logFolder + "/FIRST/logs/" + prefix + "_" + timestamp + "." + extension;
 
         try {
             File logFile = new File(fileName);
@@ -52,16 +51,6 @@ public class LogFile {
         try {
             logWriter.write(type + ": " + message + "\n");
             logWriter.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void close() {
-        try {
-            if (logWriter != null) {
-                logWriter.close();
-            }
         } catch (IOException e) {
             e.printStackTrace();
         }
